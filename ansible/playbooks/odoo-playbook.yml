@@ -1,0 +1,46 @@
+---
+- hosts: odoo_server
+  become: yes
+  tasks:
+    - name: Update and install Docker
+      yum:
+        name: docker
+        state: present
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: Pull Odoo Docker image
+      docker_image:
+        name: odoo
+        tag: 17.0-20240924
+        source: pull
+    - name: Pull PostgreSQL Docker image
+      docker_image:
+        name: postgres
+        tag: latest
+        source: pull
+    - name: Create PostgreSQL container
+      docker_container:
+        name: postgres
+        image: postgres
+        env:
+          POSTGRES_DB: odoo
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+        ports:
+          - "5432:5432"
+        state: started
+    - name: Create Odoo container
+      docker_container:
+        name: odoo
+        image: odoo
+        env:
+          - DB_HOST=postgres
+          - DB_PORT=5432
+          - DB_USER=odoo
+          - DB_PASSWORD=odoo
+        ports:
+          - "8069:8069"
+        state: started

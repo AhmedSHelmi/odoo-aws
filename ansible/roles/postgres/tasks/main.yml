@@ -1,0 +1,12 @@
+---
+- name: Setup PostgreSQL Container
+  docker_container:
+    name: postgres
+    image: postgres
+    env:
+      POSTGRES_DB: odoo
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    ports:
+      - "5432:5432"
+    state: started

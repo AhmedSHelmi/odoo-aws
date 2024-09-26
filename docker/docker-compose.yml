@@ -1,0 +1,19 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+    ports:
+      - "5432:5432"
+  odoo:
+    image: odoo
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=odoo
+      - DB_PASSWORD=odoo
+    ports:
+      - "8069:8069"

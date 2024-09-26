@@ -1,0 +1,13 @@
+---
+- name: Setup Odoo Container
+  docker_container:
+    name: odoo
+    image: odoo
+    env:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=odoo
+      - DB_PASSWORD=odoo
+    ports:
+      - "8069:8069"
+    state: started
