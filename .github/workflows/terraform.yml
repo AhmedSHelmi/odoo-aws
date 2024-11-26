@@ -30,28 +30,28 @@ jobs:
 
       # Step 3: Navigate to Terraform directory
       - name: Navigate to Terraform directory
-        working-directory: infrastructure/terraform
+        working-directory: terraform
         run: pwd
 
       # Step 4: Initialize Terraform
       - name: Terraform Init
-        working-directory: infrastructure/terraform
+        working-directory: terraform
         run: terraform init
 
       # Step 5: Validate Terraform Configuration
       - name: Terraform Validate
-        working-directory: infrastructure/terraform
+        working-directory: terraform
         run: terraform validate
 
       # Step 6: Plan Terraform Deployment
       - name: Terraform Plan
-        working-directory: infrastructure/terraform
+        working-directory: terraform
         run: terraform plan -var-file="${{ github.ref == 'refs/heads/main' && 'prod.tfvars' || 'dev.tfvars' }}"
 
       # Step 7: Apply Terraform Deployment for Development
       - name: Terraform Apply (Dev)
         if: github.ref == 'refs/heads/develop'
-        working-directory: infrastructure/terraform
+        working-directory: terraform
         run: terraform apply -auto-approve -var-file=dev.tfvars
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -60,7 +60,7 @@ jobs:
       # Step 8: Apply Terraform Deployment for Production
       - name: Terraform Apply (Prod - Manual Approval)
         if: github.ref == 'refs/heads/main'
-        working-directory: infrastructure/terraform
+        working-directory: terraform
         run: terraform apply -auto-approve -var-file=prod.tfvars
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
