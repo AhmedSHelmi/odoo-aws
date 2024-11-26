@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.region
 }
 
 resource "aws_vpc" "main_vpc" {
@@ -39,11 +39,11 @@ resource "aws_security_group" "odoo_sg" {
 
 resource "aws_instance" "odoo_instance" {
   ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t2.micro"
+  instance_type = var.instance_type
   
   subnet_id         = aws_subnet.main_subnet.id
   security_groups   = [aws_security_group.odoo_sg.name]
-  key_name          = "your-key-pair"
+  key_name          = var.key_name
 }
 
 output "instance_public_ip" {
