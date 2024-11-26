@@ -4,13 +4,7 @@ on:
   push:
     branches:
       - develop  
-      - main     
-  workflow_dispatch:  
-    inputs:
-      environment:
-        description: "Environment to deploy (dev/prod)"
-        required: true
-        default: "dev"
+      - main
 
 jobs:
   terraform:
